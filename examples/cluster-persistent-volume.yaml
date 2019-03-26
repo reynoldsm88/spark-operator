@@ -1,0 +1,30 @@
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-spark-cluster-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: my-spark-cluster-pvc
+
+---
+apiVersion: radanalytics.io/v1
+kind: SparkCluster
+metadata:
+  name: cluster-with-shared-volume-2
+spec:
+  worker:
+    instances: "2"
+  master:
+    instances: "1"
+  volumeMounts:
+      mountPath: /etc/spark/data
+      name: spark-data
+  volumes:
+    name: spark-data
+    persistentVolumeClaim:
+        claimName: my-spark-cluster-pvc
