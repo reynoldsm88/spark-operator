@@ -20,12 +20,12 @@ spec:
   master:
     instances: "1"
     volumeMounts:
-      mountPath: /etc/spark/data
+      mountPath: /opt/spark/mount
       name: spark-data
   worker:
     instances: "2"
     volumeMounts:
-      mountPath: /etc/spark/data
+      mountPath: /opt/spark/mount
       name: spark-data
   volumes:
     name: spark-data
