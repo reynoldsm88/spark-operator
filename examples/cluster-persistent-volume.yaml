@@ -9,7 +9,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  volumeName: my-spark-cluster-pvc
+  volumeName: pv0001
 
 ---
 apiVersion: radanalytics.io/v1
@@ -30,4 +30,4 @@ spec:
   volumes:
     name: spark-data
     persistentVolumeClaim:
-        claimName: my-spark-cluster-pvc
+      claimName: my-spark-cluster-pvc
