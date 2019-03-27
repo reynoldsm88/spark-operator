@@ -15,7 +15,7 @@ spec:
 apiVersion: radanalytics.io/v1
 kind: SparkCluster
 metadata:
-  name: cluster-with-shared-volume-2
+  name: cluster-with-shared-volume
 spec:
   master:
     instances: "1"
