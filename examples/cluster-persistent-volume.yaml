@@ -17,11 +17,14 @@ kind: SparkCluster
 metadata:
   name: cluster-with-shared-volume-2
 spec:
-  worker:
-    instances: "2"
   master:
     instances: "1"
-  volumeMounts:
+    volumeMounts:
+      mountPath: /etc/spark/data
+      name: spark-data
+  worker:
+    instances: "2"
+    volumeMounts:
       mountPath: /etc/spark/data
       name: spark-data
   volumes:
