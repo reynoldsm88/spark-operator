@@ -1,6 +1,7 @@
 package io.radanalytics.operator.cluster;
 
 import io.fabric8.kubernetes.api.model.*;
+import io.fabric8.kubernetes.api.model.PodTemplateSpecFluent.SpecNested;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.radanalytics.operator.historyServer.HistoryServerHelper;
 import io.radanalytics.operator.resource.LabelsHelper;
@@ -200,7 +201,7 @@ public class KubernetesSparkClusterDeployer {
                 podLabels.putAll(cluster.getWorker().getLabels());
         }
 
-        PodTemplateSpecFluent.SpecNested<ReplicationControllerSpecFluent.TemplateNested<ReplicationControllerFluent.SpecNested<ReplicationControllerBuilder>>> rcBuilder = new ReplicationControllerBuilder().withNewMetadata()
+        SpecNested<ReplicationControllerSpecFluent.TemplateNested<ReplicationControllerFluent.SpecNested<ReplicationControllerBuilder>>> rcBuilder = new ReplicationControllerBuilder().withNewMetadata()
                 .withName(podName).withLabels(labels)
                 .endMetadata()
                 .withNewSpec().withReplicas(

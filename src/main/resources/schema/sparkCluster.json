@@ -100,6 +100,9 @@
         "cpu": {
           "type": "string"
         },
+        "volumeMounts": {
+        	"$ref":"#/definitions/PersistentVolume"
+        },
         "labels" : {
           "existingJavaType" : "java.util.Map<String,String>",
           "type" : "string",
@@ -117,6 +120,23 @@
         },
         "required": ["name", "value"]
       }
-    }
+    },
+    "PersistentVolume": {
+   		"type": "object",
+   		"properties": {
+   			"size": {
+   				"type": "string",
+   				"default": "0.3Gi"
+   			},
+   			"mountPath": {
+   				"type": "string",
+   				"default": "/tmp"
+   			},
+   			"matchLabels": {
+              "type": "object",
+              "existingJavaType": "java.util.Map<String,String>"
+            }
+   		}
+	}
   }
 }
