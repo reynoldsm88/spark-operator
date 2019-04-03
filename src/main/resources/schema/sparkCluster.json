@@ -100,8 +100,16 @@
         "cpu": {
           "type": "string"
         },
-        "volumeMounts": {
-        	"$ref":"#/definitions/PersistentVolume"
+        "volumes": {
+    		"type": "array",
+    		"items": {
+    			"type":  "object",
+    			"properties": {
+    				"volume": {
+        				"$ref":"#/definitions/PersistentVolume"
+        			}
+        		}
+        	}
         },
         "labels" : {
           "existingJavaType" : "java.util.Map<String,String>",

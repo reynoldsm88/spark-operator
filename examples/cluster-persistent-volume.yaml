@@ -19,15 +19,13 @@ metadata:
 spec:
   master:
     instances: "1"
-    volumeMounts:
-      mountPath: /opt/spark/mount
-      name: spark-data
+    volumes:
+      volume:
+         mountPath: /opt/spark/mount
+         name: spark-data
   worker:
     instances: "2"
-    volumeMounts:
-      mountPath: /opt/spark/mount
-      name: spark-data
-  volumes:
-    name: spark-data
-    persistentVolumeClaim:
-      claimName: my-spark-cluster-pvc
+    volumes:
+      volume:
+         mountPath: /opt/spark/mount
+         name: spark-data
