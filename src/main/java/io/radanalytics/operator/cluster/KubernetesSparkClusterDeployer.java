@@ -1,16 +1,50 @@
 package io.radanalytics.operator.cluster;
 
-import io.fabric8.kubernetes.api.model.*;
+import static io.radanalytics.operator.Constants.OPERATOR_TYPE_MASTER_LABEL;
+import static io.radanalytics.operator.Constants.OPERATOR_TYPE_UI_LABEL;
+import static io.radanalytics.operator.Constants.OPERATOR_TYPE_WORKER_LABEL;
+import static io.radanalytics.operator.Constants.getDefaultSparkImage;
+import static io.radanalytics.operator.resource.LabelsHelper.OPERATOR_KIND_LABEL;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.api.model.ContainerBuilder;
+import io.fabric8.kubernetes.api.model.ContainerPort;
+import io.fabric8.kubernetes.api.model.ContainerPortBuilder;
+import io.fabric8.kubernetes.api.model.EnvVar;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.KubernetesList;
+import io.fabric8.kubernetes.api.model.KubernetesListBuilder;
+import io.fabric8.kubernetes.api.model.KubernetesResourceList;
+import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
+import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
 import io.fabric8.kubernetes.api.model.PodTemplateSpecFluent.SpecNested;
+import io.fabric8.kubernetes.api.model.Probe;
+import io.fabric8.kubernetes.api.model.ProbeBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
+import io.fabric8.kubernetes.api.model.QuantityBuilder;
+import io.fabric8.kubernetes.api.model.ReplicationController;
+import io.fabric8.kubernetes.api.model.ReplicationControllerBuilder;
+import io.fabric8.kubernetes.api.model.ReplicationControllerFluent;
+import io.fabric8.kubernetes.api.model.ReplicationControllerSpecFluent;
+import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.api.model.ServiceBuilder;
+import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.radanalytics.operator.historyServer.HistoryServerHelper;
 import io.radanalytics.operator.resource.LabelsHelper;
-import io.radanalytics.types.*;
-
-import java.util.*;
-
-import static io.radanalytics.operator.Constants.*;
-import static io.radanalytics.operator.resource.LabelsHelper.OPERATOR_KIND_LABEL;
+import io.radanalytics.types.NameValue;
+import io.radanalytics.types.RCSpec;
+import io.radanalytics.types.SharedVolume;
+import io.radanalytics.types.SparkCluster;
 
 public class KubernetesSparkClusterDeployer {
     private KubernetesClient client;
